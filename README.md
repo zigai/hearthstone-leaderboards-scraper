@@ -1,0 +1,3 @@
+# Hearthstone leaderboards scraper
+
+
