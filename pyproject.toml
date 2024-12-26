@@ -6,11 +6,14 @@ authors = [{ name = "zigai", email = "ziga.ivansek@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = []
-dependencies = []
+dependencies = ["loguru>=0.7.2", "httpx>=0.27.2"]
 
 [project.urls]
 "Homepage" = "https://github.com/zigai/hearthstone-leaderboards-scraper"
 "Bug Tracker" = "https://github.com/zigai/hearthstone-leaderboards-scraper/issues"
+
+[project.scripts]
+hs-leaderboards-scraper = "hearthstone_leaderboards_scraper.cli:cli"
 
 [tool.black]
 line-length = 100
