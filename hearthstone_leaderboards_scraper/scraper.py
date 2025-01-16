@@ -1,18 +1,13 @@
-import json
 import os
 from time import sleep
 from typing import Any
 
 import httpx
 from loguru import logger
+from stdl.fs import json_dump
 
 from hearthstone_leaderboards_scraper.game_mode import GameMode
 from hearthstone_leaderboards_scraper.region import Region
-
-
-def json_dump(data: Any, path: str, encoding: str = "utf-8", default=str, indent=4) -> None:
-    with open(os.fspath(path), "w", encoding=encoding) as f:
-        json.dump(data, f, indent=indent, default=default)
 
 
 class LeaderboardsScraper:
@@ -20,18 +15,21 @@ class LeaderboardsScraper:
 
     def __init__(
         self,
+        output_dir: str | None = None,
         delay: float = 1,
         user_agent: str | None = None,
         proxy: str | None = None,
         max_retries: int = 3,
-        output_dir: str | None = None,
     ):
         """
+        Leaderboards scraper for Hearthstone.
+
         Args:
-            delay (float, optional): The delay between retries in seconds. Defaults to 1.
-            user_agent (str, optional): The User-Agent string to use for requests. Defaults to a Firefox User-Agent.
-            proxy (str, optional): The proxy URL to use for requests. Defaults to None.
-            max_retries (int, optional): The maximum number of retries for failed requests. Defaults to 3.
+            output_dir (str, optional): The directory to save scraped data
+            delay (float, optional): The delay between retries in seconds
+            user_agent (str, optional): The User-Agent string to use for requests
+            proxy (str, optional): The proxy URL to use for requests
+            max_retries (int, optional): The maximum number of retries for failed requests
         """
         self.delay = delay
         self.user_agent = (
@@ -62,7 +60,7 @@ class LeaderboardsScraper:
         region: Region,
         season_id: str,
         page: int,
-    ) -> dict:
+    ) -> dict[str, Any]:
         params = self.get_params(game_mode, region, season_id, page)
         logger.info(f"[GET] {self.BASE_URL} | params={params}")
 
@@ -84,24 +82,25 @@ class LeaderboardsScraper:
                 else:
                     logger.error("Max retries reached.")
                     raise e
+        raise RuntimeError("Max retries reached")
 
     def run(
         self,
-        game_mode: GameMode,
         region: Region,
+        game_mode: GameMode,
         season_id: str,
         num_pages: int | None = None,
         bg_min_rating: int = 0,
     ):
         """
-        Scrapes leaderboard data for specified game mode, region and season.
+        Scrape leaderboard data for specified game mode, region and season.
 
         Args:
-            game_mode: Type of game mode to scrape leaderboards for
-            region: Region to scrape leaderboards from
-            season_id: ID of the season to scrape
-            num_pages: Maximum number of pages to scrape. If None, scrapes all available pages
-            bg_min_rating: Minimum player rating threshold for Battlegrounds modes. Once a player below this rating is found, scraping stops.
+            game_mode: Hearthstone game mode
+            region: Leaderboards region
+            season_id: Season ID
+            num_pages: Maximum number of pages to scrape, scrapes all available pages by default
+            bg_min_rating: Minimum player rating threshold for Battlegrounds modes. Once a player below this rating is found, scraping stops
 
         """
         if bg_min_rating and game_mode not in [GameMode.BATTLEGROUNDS, GameMode.BATTLEGROUNDS_DUO]:
