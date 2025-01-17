@@ -6,7 +6,7 @@ class GameMode(str, enum.Enum):
     BATTLEGROUNDS_DUO = "battlegroundsduo"
     STANDARD = "standard"
     WILD = "wild"
-    ClASSIC = "classic"
+    CLASSIC = "classic"
     MERCEANARY = "mercenaries"
     ARENA = "arena"
     TWIST = "twist"
