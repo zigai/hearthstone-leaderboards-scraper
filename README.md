@@ -1,10 +1,11 @@
 # Hearthstone leaderboards scraper
 
+# Installation
 ```
 pip install git+https://github.com/zigai/hearthstone-leaderboards-scraper.git
 ```
 
-
+# Usage
 ```
 usage: hs-leaderboards-scraper [-h] [-d] [-u] [-p] [-m] [-o] [-n] [-b] GAME-MODE REGION SEASON-ID
 
