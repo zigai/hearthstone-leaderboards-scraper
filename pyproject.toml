@@ -10,8 +10,8 @@ classifiers = []
 dependencies = [
     "loguru>=0.7.2",
     "httpx>=0.27.2",
-    "interfacy-cli>=0.2.2",
-    "stdl>=0.6.1",
+    "interfacy>=0.7.0",
+    "stdl>=0.7.0",
 ]
 
 [project.urls]
