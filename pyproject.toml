@@ -24,36 +24,170 @@ hs-leaderboards-scraper = "hearthstone_leaderboards_scraper.cli:cli"
 [tool.black]
 line-length = 100
 
-[tool.ruff]
-line-length = 100
-extend-ignore = ["E731", "E741", "N802", "N803", "N806", "E501"]
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-    "tests",
-]
-
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401", "E402"]
-
+[tool.uv]
+default-groups = ["test"]
 [build-system]
 requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["hearthstone_leaderboards_scraper*"]
+
+[project.optional-dependencies]
+dev = ["ruff==0.16.1", "pre-commit>=4.2.0", "rattle-lint>=2.5.1"]
+
+[tool.rattle]
+root = true
+enable = [
+    "blank-line-after-control-block",
+    "blank-line-after-terminal-control-block",
+    "blank-line-before-branch",
+    "blank-line-before-unrelated-block",
+    "no-suite-leading-trailing-blank-lines",
+    "module-all-at-bottom",
+    "no-underscore-all-exports",
+    "forbidden-call",
+    "no-relative-imports",
+    "no-underscore-import-aliases",
+    "no-unsafe-tempfile-factories",
+    "no-annotated-self",
+    "no-exception-message-variables",
+    "no-str-exception-translation",
+    "no-underscore-class",
+    "public-method-order",
+    "no-bare-object-annotations",
+    "no-named-tuple",
+    "no-static-if-condition",
+    "sorted-attributes",
+    "use-callable-ellipsis",
+]
+
+[tool.rattle.options."forbidden-call"]
+forbidden_calls = ["typing.cast"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ERA",
+    "FBT002",
+    "COM",
+    "CPY",
+    "DJ",
+    "ANN003",
+    "FIX",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D205",
+    "D203",
+    "D212",
+    "E501",
+    "PIE804",
+    "S101",
+    "EM101",
+    "PYI041",
+    "PYI051",
+    "PYI046",
+    "PYI047",
+    "PYI049",
+    "PYI053",
+    "PYI054",
+    "RET501",
+    "SIM910",
+    "N812",
+    "PLC0415",
+    "PLR0904",
+    "PLR0913",
+    "PLR0917",
+    "PLR2004",
+    "PLR1711",
+    "TRY003",
+    "T20",
+    "SIM105",
+    "RET504",
+    "PLR0912",
+    "PLR0915",
+    "SIM105",
+    "TD",
+    "TC001",
+    "TC002",
+    "TC003",
+    "TC006",
+    "PLW0603",
+    "EM102",
+    "PLW2901",
+    "RSE102",
+    "PGH004",
+    "N806",
+    "FBT001",
+]
+exclude = ["build"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401", # Unused import
+    "E402", # Module import not at top of file
+]
+"**/tests/**/*.py" = [
+    "S104",
+    "S105",
+    "S106",
+    "TRY004",
+    "RUF003",
+    "RUF012",
+    "UP031",
+    "SLF001",
+    "ARG",
+    "N806",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+    "ANN204",
+    "ANN401",
+    "S",
+    "SLF001",
+    "INP001",
+    "PLW0108",
+    "EM102",
+    "FBT001",
+    "SIM300",
+]
+"examples/*.py" = ["INP001"]
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = [
+    "pydantic.validator",
+    "declared_attr",
+    "expression",
+    "comparator",
+]
+
+[tool.ruff.lint.flake8-builtins]
+ignorelist = ["id", "input"]
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = [
+    "pydantic.BaseModel",
+    "sqlalchemy.orm.DeclarativeBase",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[dependency-groups]
+test = ["pytest>=9.0.3", "coverage>=7.14.1"]
+dev = [{include-group = "test"}, "ruff==0.16.1", "pre-commit>=4.2.0", "rattle-lint>=2.5.1", "codespell>=2.4.2"]
