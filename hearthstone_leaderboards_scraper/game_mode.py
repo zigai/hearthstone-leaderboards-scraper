@@ -1,7 +1,7 @@
-import enum
+from enum import StrEnum
 
 
-class GameMode(str, enum.Enum):
+class GameMode(StrEnum):
     BATTLEGROUNDS = "battlegrounds"
     BATTLEGROUNDS_DUO = "battlegroundsduo"
     STANDARD = "standard"

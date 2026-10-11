@@ -1,7 +1,7 @@
-import enum
+from enum import StrEnum
 
 
-class Region(str, enum.Enum):
+class Region(StrEnum):
     EUROPE = "EU"
     AMERICAS = "US"
     ASIA_PACIFIC = "AP"

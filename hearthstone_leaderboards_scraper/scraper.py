@@ -74,7 +74,7 @@ class LeaderboardsScraper:
                 )
                 response.raise_for_status()
                 return response.json()
-            except Exception as e:  # noqa: PERF203
+            except Exception as e:
                 logger.exception(e)
                 if attempt < self.max_retries - 1:
                     logger.info("Retrying ...")
